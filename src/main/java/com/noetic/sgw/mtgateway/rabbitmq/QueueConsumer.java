@@ -55,14 +55,18 @@ public class QueueConsumer {
         System.out.println(jsonString);
         try {
             MtProperties mtProperties = mapper.readValue(jsonString, MtProperties.class);
-            log.info(URLEncoder.encode("https://node.noeticworld.com/sdp/interface/mt_gateway?username" +
+            log.info(URLEncoder.encode("http://192.168.127.57:8081/sdp/interface/mt_gateway?username" +
                     "= " + mtProperties.getUsername() + " &password= " + mtProperties.getPassword() + " " +
                     "&shortcode= " + mtProperties.getShortCode() + " &serviceid= " + mtProperties
                     .getServiceId() + " &msisdn= " + mtProperties.getMsisdn() + " &data= "
                     + mtProperties.getData(), "UTF-8"));
             String message = URLEncoder.encode(mtProperties.getData(), "UTF-8");
+            System.out.println("http://192.168.127.57:8081/sdp/interface/mt_gateway?username="
+                    + mtProperties.getUsername() + "&password=" + mtProperties.getPassword()
+                    + "&shortcode=" + mtProperties.getShortCode() + "&serviceid=" + mtProperties
+                    .getServiceId() + "&msisdn=" + mtProperties.getMsisdn() + "&data=" + message);
             HttpResponse<String> response = Unirest
-                    .get("https://node.noeticworld.com/sdp/interface/mt_gateway?username="
+                    .get("http://192.168.127.57:8081/sdp/interface/mt_gateway?username="
                             + mtProperties.getUsername() + "&password=" + mtProperties.getPassword()
                             + "&shortcode=" + mtProperties.getShortCode() + "&serviceid=" + mtProperties
                             .getServiceId() + "&msisdn=" + mtProperties.getMsisdn() + "&data=" + message)
