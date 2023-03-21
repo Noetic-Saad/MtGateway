@@ -71,6 +71,9 @@ public class QueueConsumer {
                     .asString();
             if (response.getStatus() == 200) {
                 System.out.println("++++++++SENT++++++++ response.getStatus() == 200");
+            } else
+            {
+                System.out.println("++++++++ELSE++++++++ response.getStatus() != 200");
             }
         } catch (Exception e) {
             e.printStackTrace();
