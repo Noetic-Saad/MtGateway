@@ -40,11 +40,11 @@ public class MtService {
 
 
     public void consumeQueue() throws InterruptedException {
-        QueueInformation noeticQueueInfo = rabbitAdmin.getQueueInfo(NOETIC_QUEUE);
-        QueueInformation highPriorityQueueInfo = rabbitAdmin.getQueueInfo(HIGH_PRIORITY_QUEUE);
-        QueueInformation mediumPriorityQueueInfo = rabbitAdmin.getQueueInfo(MEDIUM_PRIORITY_QUEUE);
-        QueueInformation lowPriorityQueueInfo = rabbitAdmin.getQueueInfo(LOW_PRIORITY_QUEUE);
         while (true) {
+            QueueInformation noeticQueueInfo = rabbitAdmin.getQueueInfo(NOETIC_QUEUE);
+            QueueInformation highPriorityQueueInfo = rabbitAdmin.getQueueInfo(HIGH_PRIORITY_QUEUE);
+            QueueInformation mediumPriorityQueueInfo = rabbitAdmin.getQueueInfo(MEDIUM_PRIORITY_QUEUE);
+            QueueInformation lowPriorityQueueInfo = rabbitAdmin.getQueueInfo(LOW_PRIORITY_QUEUE);
             assert noeticQueueInfo != null;
             if (noeticQueueInfo.getMessageCount() != 0) {
                 Object message = consumer.noeticQueueReceiveMessage();
@@ -60,8 +60,11 @@ public class MtService {
                         Object message = consumer.mediumPriorityQueueReceiveMessage();
                         consumer.queueConsumer(message);
                     } else {
-                        Object message = consumer.lowPriorityQueueReceiveMessage();
-                        consumer.queueConsumer(message);
+                        if(lowPriorityQueueInfo.getMessageCount() != 0)
+                        {
+                            Object message = consumer.lowPriorityQueueReceiveMessage();
+                            consumer.queueConsumer(message);
+                        }
                     }
                 }
             }
